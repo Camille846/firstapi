@@ -10,8 +10,13 @@
 - [Response](#response)
 - [Código de status](#código-de-status)
 - [Padrão REST](#padrão-rest)
+        - [Representação do estado](#representação-do-estado)
 - [Módulos](#módulos)
+        - [incluir módulo](#incluir-módulo)
+        - [exportar módulo](#exportar-módulo)
 - [NodeJS como servidor](#nodejs-como-servidor)
+- [Query Params](#query-params)
+        - [WHATWG URL API](#whatwg-url-api)
 
 # Node JS
 
@@ -177,5 +182,29 @@ server.listen(3000, () => {
     console.log('Servidor rodando na porta 3000');
 });
 ``` 
+
+# Query Params 
+
+Os query params são parâmetros que são passados na URL. Eles são utilizados para filtrar os dados. Exemplo:
+
+````javascript
+                http://localhost:3000/?nome=Gabriel
+````
+## WHATWG URL API
+
+A WHATWG URL API é uma API que permite manipular URLs. Ela é utilizada para manipular os query params.
+
+Cria-se uma nova instância da classe URL e passa-se a URL como parâmetro. Exemplo:
+
+````javascript
+const { URL } = require('url');
+const parsedUrl = new URL(`http://localhost:3000${request.url}`)
+````
+
+Para pegar os query params, utiliza-se o método <strong>searchParams</strong> porém é necessário o uso do <strong>Object.fromEntries</strong> para transformar o objeto de query string em um objeto javascript e assim poder manipular os dados. Exemplo:
+
+````javascript
+request.query = Object.fromEntries(parsedUrl.searchParams);
+````
 
 
