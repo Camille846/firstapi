@@ -16,7 +16,7 @@
   - [exportar módulo](#exportar-módulo)
 - [NodeJS como servidor](#nodejs-como-servidor)
 - [Query Params](#query-params)
-        - [WHATWG URL API](#whatwg-url-api)
+  - [WHATWG URL API](#whatwg-url-api)
 
 # Node JS
 
