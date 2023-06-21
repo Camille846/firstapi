@@ -1,14 +1,15 @@
 // importar modulo nativo http
 const http = require('http');
-const url = require('url');
+const { URL } = require('url');
 
 // importar rotas
 const routes = require('./routes');
 
 // **** criar servidor ****
 const server = http.createServer((request, response) => {
-    const parsedUrl = url.parse(request.url, true)
-    // console.log(parsedUrl);
+    // pegar a url do browser e concatenar com a porta
+    const parsedUrl = new URL(`http://localhost:3000${request.url}`)
+    console.log(parsedUrl);
     console.log(`Request method: ${request.method} | Endpoint: ${parsedUrl.pathname}`);
 
     const route = routes.find((routeObj) => (
@@ -16,7 +17,8 @@ const server = http.createServer((request, response) => {
     ));
 
     if(route){
-        request.query = parsedUrl.query
+        // Utiliza-se object.fromEntries para transformar o objeto de query string em um objeto javascript
+        request.query = Object.fromEntries(parsedUrl.searchParams)
         route.handler(request, response)
     } else {
         response.writeHead(404, { 'Content-Type' : 'text/html' })
