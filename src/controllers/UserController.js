@@ -12,11 +12,7 @@ module.exports = {
 
             return a.id > b.id ? 1 : -1;
         })
-
-
-        response.writeHead(200, { 'Content-Type' : 'application/json' })
-        // Mostrar o array de usuarios ordenado
-        response.end(JSON.stringify(sortedUsers))
+        response.send(200, sortedUsers);
     },
     getUserById: (request, response) => {
         // pegar o id da url
@@ -24,12 +20,10 @@ module.exports = {
         // procurar o usuario pelo id
         const user = users.find((user) => user.id === Number(id))
 
-        if(user) {
-            response.writeHead(200, { 'Content-Type' : 'application/json' })
-            response.end(JSON.stringify(user))
-        } else {
-            response.writeHead(404, { 'Content-Type' : 'application/json' })
-            response.end(JSON.stringify({ error: 'User not found' }))
+        if(!user) {
+            return response.send(400, { error: 'User not found' })
         }
+
+        response.send(200, user)
     },
 }
