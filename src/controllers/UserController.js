@@ -40,4 +40,24 @@ module.exports = {
         // retornar o novo usuario
         response.send(200, newUser);
     },
+    updateUser(request, response) {
+        // pegar o id da url
+        const { id } = request.params;
+        // pegar o body da requisição
+        const { name } = request.body;
+        // procurar o usuario pelo id
+        const userExists = users.find((user) => user.id === Number(id));
+
+        if(!userExists) {
+            return response.send(400, { error: 'User not found' });
+        }
+
+        users.forEach((user) => {
+            if(user.id === Number(id)) {
+                user.name = name;
+            }
+        });
+
+        response.send(200, { id: Number(id), name });
+    },
 }

@@ -1,22 +1,22 @@
 module.exports = [
     {
         id: 1,
-        name: 'Ana Silva',
+        name: 'Adele',
     },
     {
         id: 2,
-        name: 'Pedro Albuquerque',
+        name: 'Bruno Mars',
     },
     {
         id: 3,
-        name: 'Maria Pereira',
+        name: 'Cardi B',
     },
     {
         id: 4,
-        name: 'João Souza',
+        name: 'Dua Lipa',
     },
     {
         id: 5,
-        name: 'Paulo Machado',
-    }
+        name: 'Eminem',
+    },
 ]
