@@ -27,29 +27,17 @@ module.exports = {
         response.send(200, user)
     },
     createUser(request, response) {
-        // pegar os dados do usuario
-        let body = '';
-
-        // quando chegar a informação, receber dentro de chunk e concatenar com body 
-        request.on('data', (chunk) => {
-            body += chunk;
-        });
-
-        // Quando finalizar a resposta, pegar o body e converter para JSON
-        request.on('end', () => {
-            body = JSON.parse(body);
-
-            // pegar o ultimo id do array e adicionar 1
-            const lastUserId = users[users.length - 1].id;
-            const newUser = {
-                id: lastUserId + 1,
-                name: body.name,
-            }
-
-            // adicionar o novo usuario no array de usuarios
-            users.push(newUser);
-
-            response.send(200, newUser);
-        });
+        // pegar o body da requisição
+        const { body } = request;
+        // pegar o ultimo id do array e adicionar 1
+        const lastUserId = users[users.length - 1].id;
+        const newUser = {
+            id: lastUserId + 1,
+            name: body.name,
+        }
+        // adicionar o novo usuario no array de usuarios
+        users.push(newUser);
+        // retornar o novo usuario
+        response.send(200, newUser);
     },
 }
