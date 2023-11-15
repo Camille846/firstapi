@@ -9,16 +9,30 @@ const routes = require('./routes');
 const server = http.createServer((request, response) => {
     // pegar a url do browser e concatenar com a porta
     const parsedUrl = new URL(`http://localhost:3000${request.url}`)
-    console.log(parsedUrl);
-    console.log(`Request method: ${request.method} | Endpoint: ${parsedUrl.pathname}`);
+
+    // criar variavel para pegar o caminho da url
+    let { pathname } = parsedUrl;
+
+    // criar variável id para pegar o id da url
+    let id = null;  
+
+    // criar constante para dividir a url em partes
+    const splitEndpoint = pathname.split('/').filter(Boolean);
+
+    //  criar condicional para chamada da rota
+    if(splitEndpoint.length > 1) {
+        // se o tamanho do array for maior que 1, o caminho da url é o primeiro elemento do array
+        pathname = `/${splitEndpoint[0]}/:id`;
+        id = splitEndpoint[1];
+    }
 
     const route = routes.find((routeObj) => (
-        routeObj.endpoint === parsedUrl.pathname && routeObj.method === request.method
+        routeObj.endpoint === pathname && routeObj.method === request.method
     ));
 
     if(route){
-        // Utiliza-se object.fromEntries para transformar o objeto de query string em um objeto javascript
-        request.query = Object.fromEntries(parsedUrl.searchParams)
+        request.query = parsedUrl.query;
+        request.params = { id };
         route.handler(request, response)
     } else {
         response.writeHead(404, { 'Content-Type' : 'text/html' })

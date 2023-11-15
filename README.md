@@ -17,6 +17,7 @@
 - [NodeJS como servidor](#nodejs-como-servidor)
 - [Query Params](#query-params)
   - [WHATWG URL API](#whatwg-url-api)
+  - [Receber parâmetros na URL](#receber-parâmetros-na-url)
 
 # Node JS
 
@@ -207,4 +208,32 @@ Para pegar os query params, utiliza-se o método <strong>searchParams</strong> p
 request.query = Object.fromEntries(parsedUrl.searchParams);
 ````
 
+# Receber parâmetros na URL
 
+Para receber parâmetros na URL como, por exemplo, buscar usuário por id na URL, você deve:
+
+- adicionar em <code>routes.js</code> o nome do parâmetro que será passado na URL, por exemplo, <code>'/users/:id'</code>;
+
+- adicionar em <code>UserController.js</code> o método que será chamado na rota, por exemplo, <code>getUserById</code>;
+
+- criar variáveis em <code>index.js</code> para pegar o caminho da URL e o id do usuário, por exemplo, <code> let id = null; </code> 
+
+- Assim, depois, criar uma nova constante para dividir a URL em partes, por exemplo:
+
+````javascript
+const splitEndpoint = pathname.split('/').filter(Boolean);
+````
+
+- A partir disso, criar condicionais para verificar se o tamanho do array é maior que 1, se for, o caminho da URL é o primeiro elemento do array e o id é o segundo elemento do array. Exemplo:
+
+````javascript
+    if(splitEndpoint.length > 1) {
+        // se o tamanho do array for maior que 1, o caminho da url é o primeiro elemento do array
+        pathname = `/${splitEndpoint[0]}/:id`;
+        id = splitEndpoint[1];
+    }
+````
+
+Dessa forma, quando o usuário acessar a rota <code>/users/1</code>, o caminho da URL será <code>/users/:id</code> e o id será 1.
+
+Deve-se, ainda, passar <code>request.params = { id };</code> para que o id seja passado para o request.

@@ -18,4 +18,18 @@ module.exports = {
         // Mostrar o array de usuarios ordenado
         response.end(JSON.stringify(sortedUsers))
     },
+    getUserById: (request, response) => {
+        // pegar o id da url
+        const { id } = request.params
+        // procurar o usuario pelo id
+        const user = users.find((user) => user.id === Number(id))
+
+        if(user) {
+            response.writeHead(200, { 'Content-Type' : 'application/json' })
+            response.end(JSON.stringify(user))
+        } else {
+            response.writeHead(404, { 'Content-Type' : 'application/json' })
+            response.end(JSON.stringify({ error: 'User not found' }))
+        }
+    },
 }
