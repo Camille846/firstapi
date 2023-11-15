@@ -60,4 +60,18 @@ module.exports = {
 
         response.send(200, { id: Number(id), name });
     },
+    deleteUser(request, response) {
+        // pegar o id da url
+        const { id } = request.params;
+        // procurar o usuario pelo id
+        const userExists = users.find((user) => user.id === Number(id));
+
+        if(!userExists) {
+            return response.send(400, { error: 'User not found' });
+        }
+
+        const filteredUsers = users.filter((user) => user.id !== Number(id));
+
+        response.send(200, filteredUsers);
+    }
 }
